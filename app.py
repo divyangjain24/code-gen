@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-# ✅ Get API key securely from Streamlit secrets
+# ✅ Securely load API key from Streamlit secrets
 API_KEY = st.secrets["API_KEY"]
 
 # ---- PAGE CONFIG ----
@@ -20,12 +20,21 @@ st.markdown("""
     }
 
     .stTextInput > div > div > input,
-    .stTextArea textarea,
-    .stSelectbox div div {
-        background-color: #ffffff;
-        color: #000;
+    .stTextArea textarea {
+        background-color: #ffffff !important;
+        color: #000 !important;
         border-radius: 8px;
         padding: 8px;
+    }
+
+    .stSelectbox div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #000 !important;
+        border-radius: 8px;
+    }
+
+    .stSelectbox span {
+        color: #000 !important;
     }
 
     .big-font {
@@ -90,7 +99,7 @@ if st.button("🚀 Generate Code"):
         }
 
         body = {
-            "model": "deepseek-coder:6.7b",
+           "model": "openai/gpt-3.5-turbo",
             "messages": [
                 {"role": "system", "content": "You are a helpful coding assistant."},
                 {"role": "user", "content": prompt}
@@ -105,7 +114,7 @@ if st.button("🚀 Generate Code"):
 
                 st.success("✅ Code generated!")
 
-                # Display code nicely
+                # Show code with formatting
                 st.markdown("<div class='code-box'>{}</div>".format(code.replace("```", "").replace("\n", "<br>")), unsafe_allow_html=True)
 
                 # Download button
