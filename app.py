@@ -1,10 +1,8 @@
 import streamlit as st
 import requests
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
-API_KEY = os.getenv("API_KEY")
+# ✅ Get API key securely from Streamlit secrets
+API_KEY = st.secrets["API_KEY"]
 
 # ---- PAGE CONFIG ----
 st.set_page_config(page_title="🧠 AI Code Generator", layout="centered", page_icon="💻")
@@ -14,37 +12,28 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Rubik&display=swap');
 
-    html, body, [class*="css"]  {
+    html, body, [class*="css"] {
         font-family: 'Rubik', sans-serif;
-        background: linear-gradient(to right, #1e3c72, #2a5298);
+        background: linear-gradient(to right, #141e30, #243b55);
         color: white;
+        transition: all 0.4s ease-in-out;
     }
 
-    .stTextInput > div > div > input {
-        background-color: #f0f2f6;
-        color: #000;
-    }
-
-    .stTextArea textarea {
-        background-color: #f0f2f6;
-        color: #000;
-    }
-
+    .stTextInput > div > div > input,
+    .stTextArea textarea,
     .stSelectbox div div {
-        background-color: #f0f2f6;
+        background-color: #ffffff;
         color: #000;
+        border-radius: 8px;
+        padding: 8px;
     }
 
     .big-font {
-        font-size: 26px !important;
+        font-size: 30px !important;
         font-weight: bold;
         color: #fddb3a;
-    }
-
-    .highlight {
-        background-color: #ff9a00;
-        padding: 3px 6px;
-        border-radius: 4px;
+        text-shadow: 1px 1px 2px #000;
+        margin-bottom: 10px;
     }
 
     .code-box {
@@ -54,6 +43,7 @@ st.markdown("""
         font-family: 'Fira Code', monospace;
         font-size: 15px;
         color: #33ffcc;
+        overflow-x: auto;
     }
 
     .stButton>button {
@@ -78,14 +68,19 @@ st.write("Ask coding questions and get AI-generated solutions instantly!")
 # ---- INPUTS ----
 question = st.text_area("📝 Your coding question", height=200)
 
-language = st.selectbox("🧠 Target programming language", [
-    "Python", "JavaScript", "C++", "Java", "C#", "Go", "Rust", "Ruby", "Swift", "TypeScript", "Kotlin", "PHP", "R", "Dart", "Scala"
-])
+language_options = [
+    "Select a language...",
+    "Python", "JavaScript", "C++", "Java", "C#", "Go", "Rust",
+    "Ruby", "Swift", "TypeScript", "Kotlin", "PHP", "R", "Dart", "Scala"
+]
+language = st.selectbox("🧠 Target programming language", language_options)
 
 # ---- GENERATE BUTTON ----
 if st.button("🚀 Generate Code"):
     if not question.strip():
-        st.warning("Please enter a question.")
+        st.warning("⚠️ Please enter a coding question.")
+    elif language == "Select a language...":
+        st.warning("⚠️ Please choose a programming language.")
     else:
         prompt = f"Write code in {language} to solve the following problem:\n\n{question}"
 
@@ -95,7 +90,7 @@ if st.button("🚀 Generate Code"):
         }
 
         body = {
-          "model": "openai/gpt-3.5-turbo",
+            "model": "deepseek-coder:6.7b",
             "messages": [
                 {"role": "system", "content": "You are a helpful coding assistant."},
                 {"role": "user", "content": prompt}
@@ -110,9 +105,12 @@ if st.button("🚀 Generate Code"):
 
                 st.success("✅ Code generated!")
 
+                # Display code nicely
                 st.markdown("<div class='code-box'>{}</div>".format(code.replace("```", "").replace("\n", "<br>")), unsafe_allow_html=True)
 
-                st.download_button("📥 Download Code", code, file_name=f"solution.{language.lower()}", mime="text/plain")
+                # Download button
+                file_ext = "py" if language.lower() == "python" else "txt"
+                st.download_button("📥 Download Code", code, file_name=f"solution.{file_ext}", mime="text/plain")
 
             except Exception as e:
                 st.error(f"❌ Error: {e}")
