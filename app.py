@@ -2,14 +2,18 @@ import streamlit as st
 import requests
 import base64
 
-# Load API Key from Streamlit secrets
+# Load API Key
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
-# Page Configuration
-st.set_page_config(page_title="AI Code Generator", layout="centered")
+# ---- APP SETTINGS ----
+st.set_page_config(
+    page_title="AI Code Generator",
+    page_icon="💡",  # Use emoji or custom favicon below
+    layout="centered"
+)
 
-# Apply only dark mode CSS
+# ---- CUSTOM LOGO + STYLES ----
 st.markdown("""
     <style>
         html, body, .stApp {
@@ -31,37 +35,39 @@ st.markdown("""
         .stButton > button:hover {
             background-color: #009ec3 !important;
         }
-
-        /* Selectbox & Dropdown Fix */
-        div[data-baseweb="select"] {
+        div[data-baseweb="select"] *, div[data-baseweb="popover"] * {
             background-color: #262730 !important;
             color: white !important;
         }
-        div[data-baseweb="select"] * {
-            background-color: #262730 !important;
-            color: white !important;
-        }
-        div[data-baseweb="popover"] {
-            background-color: #262730 !important;
-            color: white !important;
-        }
-        div[data-baseweb="popover"] * {
-            background-color: #262730 !important;
-            color: white !important;
-        }
-
         .export-button {
             text-align: right;
             margin-top: 10px;
         }
+        .app-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .app-header img {
+            height: 50px;
+            border-radius: 10px;
+        }
+        .app-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
     </style>
+
+    <div class="app-header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Artificial_intelligence_logo_by_MindIcon.png" alt="AI Logo">
+        <div class="app-title">AI Code Generator</div>
+    </div>
 """, unsafe_allow_html=True)
 
-# Title and instructions
-st.title("💻 AI Code Generator")
+# ---- MAIN APP ----
 st.markdown("### 🧠 Describe what you want and pick your language:")
 
-# Language selector
 languages = {
     "Python": "py", "JavaScript": "js", "Java": "java",
     "C++": "cpp", "C": "c", "C#": "cs", "HTML": "html",
@@ -70,8 +76,6 @@ languages = {
 }
 language_name = st.selectbox("Select a programming language:", list(languages.keys()))
 language_code = languages[language_name]
-
-# User input prompt
 user_prompt = st.text_area("Enter your code request:", placeholder=f"e.g. Create a login page using {language_name}")
 
 # Function to generate code
@@ -106,7 +110,6 @@ if st.button("✨ Generate Code"):
             st.markdown(f"### 🚀 Code Output in {language_name}:")
             st.code(code_output, language=language_code)
 
-            # Download button
             b64 = base64.b64encode(code_output.encode()).decode()
             href = f'<a href="data:file/text;base64,{b64}" download="generated_code.{language_code}">📥 Download Code</a>'
             st.markdown(f"<div class='export-button'>{href}</div>", unsafe_allow_html=True)
