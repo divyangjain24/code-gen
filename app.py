@@ -59,29 +59,29 @@ st.markdown("""
         }
         .info-section {
             margin-top: 50px;
-            border-top: 2px solid #4a5568; /* Darker border */
+            border-top: 2px solid #4a5568;
             padding-top: 20px;
         }
         .info-title {
-            color: #f56565; /* Red color for title */
+            color: #f56565;
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); /* Subtle text shadow */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
         }
         .info-text {
-            color: #cbd5e0; /* Off-white, slightly lighter text */
-            line-height: 1.7; /* Improved line height for better readability */
+            color: #cbd5e0;
+            line-height: 1.7;
             margin-bottom: 10px;
         }
         .info-link {
-            color: #81e6d8; /* A teal/cyan color for links */
+            color: #81e6d8;
             text-decoration: none;
-            font-weight: 600; /* Make links bold */
+            font-weight: 600;
         }
         .info-link:hover {
-            color: #319796; /* Darker teal on hover */
-            text-decoration: underline; /* Underline on hover for better UX */
+            color: #319796;
+            text-decoration: underline;
         }
     </style>
 
@@ -160,7 +160,7 @@ st.markdown("""
     
     <h2 class="info-title" style="margin-top: 30px;">About the App</h2>
     <p class="info-text">
-        The AI Code Generator is a web application that helps you quickly generate code in various programming languages.  Simply describe what you want the code to do, select your desired language, and the AI will generate the code for you.
+        The AI Code Generator ek web application hai jo aapko vibhinn programming languages mein code ko jaldi se generate karne mein madad karta hai.  Bas aap jo code karna chahte hain use describe karen, apni ichchhit bhasha ka chayan karen, aur AI aapke liye code generate kar dega.
     </p>
 </div>
 """, unsafe_allow_html=True)
