@@ -158,9 +158,6 @@ st.markdown("""
     <p class="info-text">YouTube Channel: <a href="https://www.youtube.com/@alron-mind" target="_blank" class="info-link">Alron Mind</a></p>
     <p class="info-text">LinkedIn: <a href="https://www.linkedin.com/in/divyang-jain-276032291?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="info-link">Divyang Jain</a></p>
     
-    <h2 class="info-title" style="margin-top: 30px;">About the App</h2>
-    <p class="info-text">
-        The AI Code Generator is a web application that helps you quickly generate code in various programming languages. Simply describe what you want the code to do, select your desired language, and the AI will generate the code for you.
-    </p>
+    
 </div>
 """, unsafe_allow_html=True)
