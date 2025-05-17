@@ -121,3 +121,20 @@ if st.button("✨ Generate Code"):
             st.markdown(f"<div class='export-button'>{href}</div>", unsafe_allow_html=True)
     else:
         st.warning("Please enter a description for the code.")
+
+# Your Information Section
+st.markdown("""
+<div style="margin-top: 50px; border-top: 1px solid #333; padding-top: 20px;">
+    <h2 style="color: white;">About the Developer</h2>
+    <p style="color: #ddd;">Email: Narutouzu@gmail.com</p>
+    <p style="color: #ddd;">Instagram: <a href="https://www.instagram.com/morningstar7854/" target="_blank" style="color: #00c9ff;">morningstar7854</a></p>
+    <p style="color: #ddd;">Phone Number: 8630062115</p>
+    <p style="color: #ddd;">YouTube Channel: <a href="https://www.youtube.com/@alron-mind" target="_blank" style="color: #00c9ff;">Alron Mind</a></p>
+    <p style="color: #ddd;">LinkedIn: <a href="https://www.linkedin.com/in/divyang-jain-276032291?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" style="color: #00c9ff;">Divyang Jain</a></p>
+    
+    <h2 style="color: white; margin-top: 30px;">About the App</h2>
+    <p style="color: #ddd;">
+        The AI Code Generator is a web application that helps you quickly generate code in various programming languages.  Simply describe what you want the code to do, select your desired language, and the AI will generate the code for you.
+    </p>
+</div>
+""", unsafe_allow_html=True)
