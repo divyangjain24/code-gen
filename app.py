@@ -1,63 +1,62 @@
 import streamlit as st
 import requests
 
-# Load API Key
-OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
-OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
-
-# Page configuration
+# Set page config
 st.set_page_config(page_title="AI Code Generator", layout="centered")
 
-# Dark mode toggle
-dark_mode = st.toggle("🌗 Dark Mode", value=False)
+# Initialize session state for theme
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = False
 
-# CSS styles based on theme
-bg_color = "#1e1e1e" if dark_mode else "#f0f2f6"
-card_color = "#2d2d2d" if dark_mode else "white"
-text_color = "white" if dark_mode else "#000"
-button_color = "#007acc" if not dark_mode else "#00c8ff"
-button_hover = "#005f99" if not dark_mode else "#0096cc"
+# Toggle switch
+dark_mode = st.toggle("🌗 Dark Mode", value=st.session_state.dark_mode)
+st.session_state.dark_mode = dark_mode
 
-# Apply custom styles
-st.markdown(f"""
+# CSS for dark and light mode
+dark_css = """
     <style>
-        body {{
-            background: {bg_color};
-            color: {text_color};
-        }}
-        .main {{
-            background: {card_color};
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-            max-width: 800px;
-            margin: auto;
-            color: {text_color};
-        }}
-        h1, h2, h3, h4, h5, h6 {{
-            color: {button_color};
-            font-family: 'Courier New', monospace;
-            text-align: center;
-        }}
-        .stTextArea, .stSelectbox, .stDownloadButton, .stButton > button {{
-            font-size: 1rem;
-            border-radius: 10px;
-        }}
-        .stButton > button {{
-            background-color: {button_color};
-            color: white;
-            padding: 0.6rem 1.3rem;
-            border: none;
-            font-weight: bold;
-        }}
-        .stButton > button:hover {{
-            background-color: {button_hover};
-            transform: scale(1.04);
-        }}
+        body, .main {
+            background-color: #121212 !important;
+            color: #f1f1f1 !important;
+        }
+        .stTextInput, .stTextArea, .stSelectbox, .stButton > button {
+            background-color: #1e1e1e !important;
+            color: white !important;
+            border: 1px solid #333;
+        }
+        .stButton > button {
+            background-color: #0d6efd;
+        }
+        .stButton > button:hover {
+            background-color: #0b5ed7;
+        }
     </style>
-""", unsafe_allow_html=True)
+"""
 
-# Main container
+light_css = """
+    <style>
+        body, .main {
+            background-color: #f0f2f6 !important;
+            color: #000 !important;
+        }
+        .stTextInput, .stTextArea, .stSelectbox, .stButton > button {
+            background-color: white !important;
+            color: black !important;
+        }
+        .stButton > button {
+            background-color: #007acc;
+            color: white;
+        }
+        .stButton > button:hover {
+            background-color: #005f99;
+        }
+    </style>
+"""
+
+# Apply appropriate theme
+st.markdown(dark_css if dark_mode else light_css, unsafe_allow_html=True)
+
+# Container styling
 st.markdown("<div class='main'>", unsafe_allow_html=True)
 st.markdown("### 💻 AI Code Generator")
 st.markdown("### 🧠 Describe what you want and pick your language:")
@@ -75,7 +74,10 @@ language_code = languages[language_name]
 # User input
 user_prompt = st.text_area("Enter your code request:", placeholder=f"e.g. Create a login page using {language_name}")
 
-# API Call function
+# OpenRouter API setup
+OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
+
 def generate_code(prompt, lang):
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -101,7 +103,7 @@ def generate_code(prompt, lang):
     except Exception as e:
         return f"❌ Error: {str(e)}"
 
-# Generate Code + Download
+# Generate code
 if st.button("✨ Generate Code"):
     if user_prompt.strip():
         with st.spinner("Generating your code..."):
