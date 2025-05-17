@@ -99,7 +99,7 @@ if st.button("🚀 Generate Code"):
         }
 
         body = {
-           "model": "openai/gpt-3.5-turbo",
+            "model": "openai/gpt-3.5-turbo",
             "messages": [
                 {"role": "system", "content": "You are a helpful coding assistant."},
                 {"role": "user", "content": prompt}
