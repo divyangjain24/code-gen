@@ -160,7 +160,7 @@ st.markdown("""
     
     <h2 class="info-title" style="margin-top: 30px;">About the App</h2>
     <p class="info-text">
-        The AI Code Generator ek web application hai jo aapko vibhinn programming languages mein code ko jaldi se generate karne mein madad karta hai.  Bas aap jo code karna chahte hain use describe karen, apni ichchhit bhasha ka chayan karen, aur AI aapke liye code generate kar dega.
+        The AI Code Generator is a web application that helps you quickly generate code in various programming languages. Simply describe what you want the code to do, select your desired language, and the AI will generate the code for you.
     </p>
 </div>
 """, unsafe_allow_html=True)
