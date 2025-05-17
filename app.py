@@ -8,40 +8,61 @@ OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 # Page Configuration
 st.set_page_config(page_title="AI Code Generator", layout="centered")
 
-# Custom CSS for Aesthetic UI
+# Enhanced UI with Gradient and Glassmorphism
 st.markdown("""
     <style>
-        body {
-            background: linear-gradient(to right, #141e30, #243b55);
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        html, body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: 'Inter', sans-serif;
             color: white;
         }
         .main {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            max-width: 700px;
-            margin: auto;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            padding: 3rem 2rem;
+            border-radius: 25px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            max-width: 750px;
+            margin: 3rem auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         h1 {
             text-align: center;
-            color: #00d4ff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #00f2fe;
+            font-weight: 600;
+            font-size: 2.5rem;
+        }
+        h3 {
+            color: #ffffffcc;
         }
         .stButton > button {
-            background-color: #00d4ff;
-            color: black;
+            background-image: linear-gradient(to right, #00f2fe, #4facfe);
+            color: white;
             border: none;
             padding: 0.75rem 1.5rem;
             font-size: 1rem;
-            border-radius: 10px;
-            transition: 0.3s;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
         }
         .stButton > button:hover {
-            background-color: #009ec3;
             transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+        }
+        .stTextArea textarea {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .stSelectbox div {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+        .css-1y4p8pa {  /* Output Code box */
+            background-color: #1f1f1f !important;
         }
     </style>
 """, unsafe_allow_html=True)
