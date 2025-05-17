@@ -1,107 +1,67 @@
 import streamlit as st
 
-# Title
-st.title("💻 AI Code Generator")
+# Toggle for Dark Mode
+dark_mode = st.toggle("🌗 Dark Mode")
 
-# Dark mode toggle
-dark_mode = st.toggle("Dark Mode")
-
-# CSS for dark mode
-dark_mode_css = """
-<style>
-    html, body, .stApp {
-        background-color: #0e1117 !important;
-        color: white !important;
-    }
-
-    [data-testid="stAppViewContainer"],
-    [data-testid="stHeader"],
-    [data-testid="stToolbar"],
-    [data-testid="stSidebar"] {
-        background-color: #0e1117 !important;
-        color: white !important;
-    }
-
-    .stTextInput > div > input,
-    .stTextArea > div > textarea,
-    .stSelectbox > div {
-        background-color: #262730 !important;
-        color: white !important;
-        border: 1px solid #555 !important;
-    }
-
-    .stButton > button {
-        background-color: #007acc !important;
-        color: white !important;
-        border: none !important;
-        font-weight: bold;
-    }
-
-    .stButton > button:hover {
-        background-color: #005f99 !important;
-        color: white !important;
-    }
-
-    ::placeholder {
-        color: #bbb !important;
-    }
-</style>
-"""
-
-# CSS for light mode
-light_mode_css = """
-<style>
-    html, body, .stApp {
-        background-color: white !important;
-        color: black !important;
-    }
-
-    [data-testid="stAppViewContainer"],
-    [data-testid="stHeader"],
-    [data-testid="stToolbar"],
-    [data-testid="stSidebar"] {
-        background-color: white !important;
-        color: black !important;
-    }
-
-    .stTextInput > div > input,
-    .stTextArea > div > textarea,
-    .stSelectbox > div {
-        background-color: white !important;
-        color: black !important;
-        border: 1px solid #ccc !important;
-    }
-
-    .stButton > button {
-        background-color: #f0f0f0 !important;
-        color: black !important;
-        border: 1px solid #ccc !important;
-        font-weight: bold;
-    }
-
-    .stButton > button:hover {
-        background-color: #e0e0e0 !important;
-        color: black !important;
-    }
-
-    ::placeholder {
-        color: #666 !important;
-    }
-</style>
-"""
-
-# Apply the correct CSS
+# Apply CSS styles conditionally
 if dark_mode:
-    st.markdown(dark_mode_css, unsafe_allow_html=True)
+    st.markdown("""
+    <style>
+        html, body, .stApp {
+            background-color: #0e1117 !important;
+            color: white !important;
+        }
+        label, div, p, h1, h2, h3, h4, h5, h6 {
+            color: white !important;
+        }
+        input, textarea, select {
+            background-color: #262730 !important;
+            color: white !important;
+        }
+        .stButton > button {
+            background-color: #007acc !important;
+            color: white !important;
+            font-weight: bold;
+        }
+        .stButton > button:hover {
+            background-color: #005f99 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 else:
-    st.markdown(light_mode_css, unsafe_allow_html=True)
+    st.markdown("""
+    <style>
+        html, body, .stApp {
+            background-color: white !important;
+            color: black !important;
+        }
+        label, div, p, h1, h2, h3, h4, h5, h6 {
+            color: black !important;
+        }
+        input, textarea, select {
+            background-color: white !important;
+            color: black !important;
+        }
+        .stButton > button {
+            background-color: #f0f0f0 !important;
+            color: black !important;
+            font-weight: bold;
+            border: 1px solid #ccc !important;
+        }
+        .stButton > button:hover {
+            background-color: #e0e0e0 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
-# Page content
+# App content
+st.title("💻 AI Code Generator")
 st.markdown("### 🧠 Describe what you want and pick your language:")
 
+# Inputs
 language = st.selectbox("Select a programming language:", ["Python", "JavaScript", "Java", "C++", "Go"])
 prompt = st.text_area("Enter your code request:", placeholder="e.g. Create a login page using Python")
 
+# Button
 if st.button("✨ Generate Code"):
     st.success(f"Generating code for '{language}' with prompt: '{prompt}'")
-    # Your actual generation logic goes here
