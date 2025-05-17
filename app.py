@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-# ✅ Securely load API key from Streamlit secrets
+# ✅ Load API Key from Streamlit secrets
 API_KEY = st.secrets["API_KEY"]
 
 # ---- PAGE CONFIG ----
@@ -11,14 +11,11 @@ st.set_page_config(page_title="🧠 AI Code Generator", layout="centered", page_
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Rubik&display=swap');
-
     html, body, [class*="css"] {
         font-family: 'Rubik', sans-serif;
         background: linear-gradient(to right, #141e30, #243b55);
         color: white;
-        transition: all 0.4s ease-in-out;
     }
-
     .stTextInput > div > div > input,
     .stTextArea textarea {
         background-color: #ffffff !important;
@@ -26,25 +23,12 @@ st.markdown("""
         border-radius: 8px;
         padding: 8px;
     }
-
-    .stSelectbox div[data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        color: #000 !important;
-        border-radius: 8px;
-    }
-
-    .stSelectbox span {
-        color: #000 !important;
-    }
-
     .big-font {
         font-size: 30px !important;
         font-weight: bold;
         color: #fddb3a;
-        text-shadow: 1px 1px 2px #000;
         margin-bottom: 10px;
     }
-
     .code-box {
         background-color: #1e1e1e;
         padding: 20px;
@@ -54,15 +38,11 @@ st.markdown("""
         color: #33ffcc;
         overflow-x: auto;
     }
-
     .stButton>button {
         border-radius: 10px;
         background: #fddb3a;
         color: black;
-        border: none;
-        transition: 0.3s ease;
     }
-
     .stButton>button:hover {
         background: #ff9a00;
         color: white;
@@ -95,11 +75,13 @@ if st.button("🚀 Generate Code"):
 
         headers = {
             "Authorization": f"Bearer {API_KEY}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "HTTP-Referer": "http://localhost",  # Replace with your deployed domain if needed
+            "X-Title": "AI Code Generator"
         }
 
         body = {
-            "model": "openai/gpt-3.5-turbo",
+            "model": "mistralai/mistral-7b-instruct",  # Change to another available model if you want
             "messages": [
                 {"role": "system", "content": "You are a helpful coding assistant."},
                 {"role": "user", "content": prompt}
@@ -113,11 +95,8 @@ if st.button("🚀 Generate Code"):
                 code = res.json()['choices'][0]['message']['content']
 
                 st.success("✅ Code generated!")
-
-                # Show code with formatting
                 st.markdown("<div class='code-box'>{}</div>".format(code.replace("```", "").replace("\n", "<br>")), unsafe_allow_html=True)
 
-                # Download button
                 file_ext = "py" if language.lower() == "python" else "txt"
                 st.download_button("📥 Download Code", code, file_name=f"solution.{file_ext}", mime="text/plain")
 
