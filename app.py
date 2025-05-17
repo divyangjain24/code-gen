@@ -5,86 +5,45 @@ import requests
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
+# Page configuration
 st.set_page_config(page_title="AI Code Generator", layout="centered")
 
-# Initialize dark mode state
-if "dark_mode" not in st.session_state:
-    st.session_state.dark_mode = True
-
-# Dark mode toggle checkbox
-dark_mode = st.checkbox("🌗 Toggle Dark Mode", value=st.session_state.dark_mode)
-st.session_state.dark_mode = dark_mode
-
-# CSS for dark and light modes
-if st.session_state.dark_mode:
-    bg_style = """
-    body {
-        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-        color: white;
-    }
-    .main {
-        background: rgba(255, 255, 255, 0.07);
-        backdrop-filter: blur(10px);
-        padding: 2.5rem;
-        border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        max-width: 800px;
-        margin: auto;
-        color: white;
-    }
-    h1 {
-        color: #00ffff;
-        font-family: 'Courier New', monospace;
-        text-align: center;
-    }
-    .stButton > button {
-        background-color: #00c9ff;
-        color: black;
-        padding: 0.6rem 1.3rem;
-        border: none;
-        font-weight: bold;
-        border-radius: 10px;
-    }
-    .stButton > button:hover {
-        background-color: #009ec3;
-        transform: scale(1.04);
-    }
-    """
-else:
-    bg_style = """
-    body {
-        background: #f0f2f6;
-        color: black;
-    }
-    .main {
-        background: white;
-        padding: 2.5rem;
-        border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        max-width: 800px;
-        margin: auto;
-        color: black;
-    }
-    h1 {
-        color: #007acc;
-        font-family: 'Courier New', monospace;
-        text-align: center;
-    }
-    .stButton > button {
-        background-color: #007acc;
-        color: white;
-        padding: 0.6rem 1.3rem;
-        border: none;
-        font-weight: bold;
-        border-radius: 10px;
-    }
-    .stButton > button:hover {
-        background-color: #005f99;
-        transform: scale(1.04);
-    }
-    """
-
-st.markdown(f"<style>{bg_style}</style>", unsafe_allow_html=True)
+# Simple CSS styling
+st.markdown("""
+    <style>
+        body {
+            background: #f0f2f6;
+            color: #000;
+        }
+        .main {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: auto;
+            color: #000;
+        }
+        h1 {
+            color: #007acc;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .stButton > button {
+            background-color: #007acc;
+            color: white;
+            padding: 0.6rem 1.3rem;
+            border: none;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+        .stButton > button:hover {
+            background-color: #005f99;
+            transform: scale(1.04);
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 st.markdown("<div class='main'>", unsafe_allow_html=True)
 st.markdown("### 💻 AI Code Generator")
