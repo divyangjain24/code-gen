@@ -7,62 +7,87 @@ OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
 st.set_page_config(page_title="AI Code Generator", layout="centered")
 
-# Initialize dark mode state in session_state
+# Initialize dark mode state
 if "dark_mode" not in st.session_state:
     st.session_state.dark_mode = True
 
-def toggle_mode():
-    st.session_state.dark_mode = not st.session_state.dark_mode
+# Dark mode toggle checkbox
+dark_mode = st.checkbox("🌗 Toggle Dark Mode", value=st.session_state.dark_mode)
+st.session_state.dark_mode = dark_mode
 
-# Dark Mode Toggle Button
-st.button("🌗 Toggle Dark Mode", on_click=toggle_mode)
-
-# Apply CSS based on dark_mode state
+# CSS for dark and light modes
 if st.session_state.dark_mode:
-    background_style = "linear-gradient(to right, #0f2027, #203a43, #2c5364); color: white;"
+    bg_style = """
+    body {
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        color: white;
+    }
+    .main {
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(10px);
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        max-width: 800px;
+        margin: auto;
+        color: white;
+    }
+    h1 {
+        color: #00ffff;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+    }
+    .stButton > button {
+        background-color: #00c9ff;
+        color: black;
+        padding: 0.6rem 1.3rem;
+        border: none;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+    .stButton > button:hover {
+        background-color: #009ec3;
+        transform: scale(1.04);
+    }
+    """
 else:
-    background_style = "#f0f2f6; color: black;"
+    bg_style = """
+    body {
+        background: #f0f2f6;
+        color: black;
+    }
+    .main {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        max-width: 800px;
+        margin: auto;
+        color: black;
+    }
+    h1 {
+        color: #007acc;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+    }
+    .stButton > button {
+        background-color: #007acc;
+        color: white;
+        padding: 0.6rem 1.3rem;
+        border: none;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+    .stButton > button:hover {
+        background-color: #005f99;
+        transform: scale(1.04);
+    }
+    """
 
-st.markdown(f"""
-    <style>
-        body {{
-            background: {background_style}
-        }}
-        .main {{
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(10px);
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-            max-width: 800px;
-            margin: auto;
-            color: inherit;
-        }}
-        h1 {{
-            text-align: center;
-            color: #00ffff;
-            font-family: 'Courier New', monospace;
-        }}
-        .stTextArea, .stSelectbox, .stButton > button {{
-            font-size: 1rem;
-            border-radius: 10px;
-        }}
-        .stButton > button {{
-            background-color: #00c9ff;
-            color: black;
-            padding: 0.6rem 1.3rem;
-            border: none;
-            font-weight: bold;
-        }}
-        .stButton > button:hover {{
-            background-color: #009ec3;
-            transform: scale(1.04);
-        }}
-    </style>
-""", unsafe_allow_html=True)
+st.markdown(f"<style>{bg_style}</style>", unsafe_allow_html=True)
 
-# Title and instructions
-st.markdown("<div class='main'><h1>💻 AI Code Generator</h1>", unsafe_allow_html=True)
+st.markdown("<div class='main'>", unsafe_allow_html=True)
+st.markdown("### 💻 AI Code Generator")
 st.markdown("### 🧠 Describe what you want and pick your language:")
 
 languages = {
@@ -94,12 +119,11 @@ def generate_code(prompt, lang):
         "model": "openai/gpt-3.5-turbo",
         "messages": [
             {"role": "system", "content": f"You are a professional {lang} developer who writes clean, efficient, and well-commented code."},
-            {"role": "user", "content": f"Generate an optimal and correct {lang} solution for:\n{prompt}\nOnly provide the code without any explanations."}
+            {"role": "user", "content": f"Generate an optimal and correct {lang} solution for:\n{prompt}\nOnly provide the code without explanations."}
         ],
         "temperature": 0.5,
         "max_tokens": 1000
     }
-
     try:
         response = requests.post(OPENROUTER_ENDPOINT, headers=headers, json=data)
         response.raise_for_status()
