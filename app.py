@@ -106,8 +106,12 @@ def generate_code(prompt, lang):
         response.raise_for_status()
         result = response.json()
         return result["choices"][0]["message"]["content"]
+    except requests.exceptions.RequestException as e:
+        return f"❌ Error: {str(e)}.  Please check your network connection and OpenRouter API key."
+    except KeyError:
+        return "❌ Error: Could not extract code from the API response.  The API may have returned an unexpected format."
     except Exception as e:
-        return f"❌ Error: {str(e)}"
+        return f"❌ Error: An unexpected error occurred: {str(e)}"
 
 # Button to Generate Code
 if st.button("✨ Generate Code"):
