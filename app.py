@@ -5,14 +5,20 @@ import requests
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
-# Page Configuration
 st.set_page_config(page_title="AI Code Generator", layout="centered")
 
-# Dark Mode Toggle (Streamlit doesn't have a toggle widget by default, using checkbox instead)
-dark_mode = st.checkbox("🌗 Toggle Dark Mode", value=True)
+# Initialize dark mode state in session_state
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = True
 
-# Custom CSS with Gradient and Toggle Support
-if dark_mode:
+def toggle_mode():
+    st.session_state.dark_mode = not st.session_state.dark_mode
+
+# Dark Mode Toggle Button
+st.button("🌗 Toggle Dark Mode", on_click=toggle_mode)
+
+# Apply CSS based on dark_mode state
+if st.session_state.dark_mode:
     background_style = "linear-gradient(to right, #0f2027, #203a43, #2c5364); color: white;"
 else:
     background_style = "#f0f2f6; color: black;"
@@ -59,7 +65,6 @@ st.markdown(f"""
 st.markdown("<div class='main'><h1>💻 AI Code Generator</h1>", unsafe_allow_html=True)
 st.markdown("### 🧠 Describe what you want and pick your language:")
 
-# Language selector
 languages = {
     "Python": "py",
     "JavaScript": "js",
@@ -74,13 +79,12 @@ languages = {
     "Ruby": "rb",
     "PHP": "php"
 }
+
 language_name = st.selectbox("Select a programming language:", list(languages.keys()))
 language_code = languages[language_name]
 
-# User input prompt
 user_prompt = st.text_area("Enter your code request:", placeholder=f"e.g. Create a login page using {language_name}")
 
-# Call OpenRouter API
 def generate_code(prompt, lang):
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -107,7 +111,6 @@ def generate_code(prompt, lang):
     except Exception as e:
         return f"❌ Error: {str(e)}"
 
-# Generate button and display output
 if st.button("✨ Generate Code"):
     if user_prompt.strip():
         with st.spinner("Generating your code..."):
@@ -115,7 +118,6 @@ if st.button("✨ Generate Code"):
             st.markdown(f"### 🚀 Code Output in {language_name}:")
             st.code(code_output, language=language_code)
 
-            # Download Code Button - visible and native Streamlit button
             st.download_button(
                 label="📥 Download Code",
                 data=code_output,
