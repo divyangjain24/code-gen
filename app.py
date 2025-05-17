@@ -2,18 +2,18 @@ import streamlit as st
 import requests
 import base64
 
-# Load API Key
+# API Config
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
-# ---- APP SETTINGS ----
+# Page Settings
 st.set_page_config(
     page_title="AI Code Generator",
-    page_icon="💡",  # Use emoji or custom favicon below
+    page_icon="💡",
     layout="centered"
 )
 
-# ---- CUSTOM LOGO + STYLES ----
+# Custom Styles (Dark Mode Only)
 st.markdown("""
     <style>
         html, body, .stApp {
@@ -31,6 +31,7 @@ st.markdown("""
             background-color: #00c9ff !important;
             color: black !important;
             font-weight: bold;
+            border-radius: 8px;
         }
         .stButton > button:hover {
             background-color: #009ec3 !important;
@@ -46,16 +47,20 @@ st.markdown("""
         .app-header {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 15px;
+            margin-bottom: 25px;
+            padding: 10px;
+            border-bottom: 1px solid #333;
         }
         .app-header img {
             height: 50px;
-            border-radius: 10px;
+            border-radius: 8px;
         }
         .app-title {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
     </style>
 
@@ -65,7 +70,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# ---- MAIN APP ----
+# UI Inputs
 st.markdown("### 🧠 Describe what you want and pick your language:")
 
 languages = {
@@ -74,11 +79,13 @@ languages = {
     "CSS": "css", "TypeScript": "ts", "Go": "go",
     "Ruby": "rb", "PHP": "php"
 }
+
 language_name = st.selectbox("Select a programming language:", list(languages.keys()))
 language_code = languages[language_name]
+
 user_prompt = st.text_area("Enter your code request:", placeholder=f"e.g. Create a login page using {language_name}")
 
-# Function to generate code
+# Generate Code Function
 def generate_code(prompt, lang):
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -102,7 +109,7 @@ def generate_code(prompt, lang):
     except Exception as e:
         return f"❌ Error: {str(e)}"
 
-# Generate and show code
+# Button to Generate Code
 if st.button("✨ Generate Code"):
     if user_prompt.strip():
         with st.spinner("Generating your code..."):
@@ -110,6 +117,7 @@ if st.button("✨ Generate Code"):
             st.markdown(f"### 🚀 Code Output in {language_name}:")
             st.code(code_output, language=language_code)
 
+            # Download option
             b64 = base64.b64encode(code_output.encode()).decode()
             href = f'<a href="data:file/text;base64,{b64}" download="generated_code.{language_code}">📥 Download Code</a>'
             st.markdown(f"<div class='export-button'>{href}</div>", unsafe_allow_html=True)
