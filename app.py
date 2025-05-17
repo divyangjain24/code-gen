@@ -57,6 +57,32 @@ st.markdown("""
             font-weight: 700;
             letter-spacing: 1px;
         }
+        .info-section {
+            margin-top: 50px;
+            border-top: 2px solid #4a5568; /* Darker border */
+            padding-top: 20px;
+        }
+        .info-title {
+            color: #f56565; /* Red color for title */
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); /* Subtle text shadow */
+        }
+        .info-text {
+            color: #cbd5e0; /* Off-white, slightly lighter text */
+            line-height: 1.7; /* Improved line height for better readability */
+            margin-bottom: 10px;
+        }
+        .info-link {
+            color: #81e6d8; /* A teal/cyan color for links */
+            text-decoration: none;
+            font-weight: 600; /* Make links bold */
+        }
+        .info-link:hover {
+            color: #319796; /* Darker teal on hover */
+            text-decoration: underline; /* Underline on hover for better UX */
+        }
     </style>
 
     <div class="app-header">
@@ -124,16 +150,16 @@ if st.button("✨ Generate Code"):
 
 # Your Information Section
 st.markdown("""
-<div style="margin-top: 50px; border-top: 1px solid #333; padding-top: 20px;">
-    <h2 style="color: white;">About the Developer</h2>
-    <p style="color: #ddd;">Email: Narutouzu@gmail.com</p>
-    <p style="color: #ddd;">Instagram: <a href="https://www.instagram.com/morningstar7854/" target="_blank" style="color: #00c9ff;">morningstar7854</a></p>
-    <p style="color: #ddd;">Phone Number: 8630062115</p>
-    <p style="color: #ddd;">YouTube Channel: <a href="https://www.youtube.com/@alron-mind" target="_blank" style="color: #00c9ff;">Alron Mind</a></p>
-    <p style="color: #ddd;">LinkedIn: <a href="https://www.linkedin.com/in/divyang-jain-276032291?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" style="color: #00c9ff;">Divyang Jain</a></p>
+<div class="info-section">
+    <h2 class="info-title">About the Developer</h2>
+    <p class="info-text">Email: Narutouzu@gmail.com</p>
+    <p class="info-text">Instagram: <a href="https://www.instagram.com/morningstar7854/" target="_blank" class="info-link">morningstar7854</a></p>
+    <p class="info-text">Phone Number: 8630062115</p>
+    <p class="info-text">YouTube Channel: <a href="https://www.youtube.com/@alron-mind" target="_blank" class="info-link">Alron Mind</a></p>
+    <p class="info-text">LinkedIn: <a href="https://www.linkedin.com/in/divyang-jain-276032291?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="info-link">Divyang Jain</a></p>
     
-    <h2 style="color: white; margin-top: 30px;">About the App</h2>
-    <p style="color: #ddd;">
+    <h2 class="info-title" style="margin-top: 30px;">About the App</h2>
+    <p class="info-text">
         The AI Code Generator is a web application that helps you quickly generate code in various programming languages.  Simply describe what you want the code to do, select your desired language, and the AI will generate the code for you.
     </p>
 </div>
