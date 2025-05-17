@@ -8,40 +8,52 @@ OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 # Page configuration
 st.set_page_config(page_title="AI Code Generator", layout="centered")
 
-# Minimal clean CSS
-st.markdown("""
+# Dark mode toggle
+dark_mode = st.toggle("🌗 Dark Mode", value=False)
+
+# CSS styles based on theme
+bg_color = "#1e1e1e" if dark_mode else "#f0f2f6"
+card_color = "#2d2d2d" if dark_mode else "white"
+text_color = "white" if dark_mode else "#000"
+button_color = "#007acc" if not dark_mode else "#00c8ff"
+button_hover = "#005f99" if not dark_mode else "#0096cc"
+
+# Apply custom styles
+st.markdown(f"""
     <style>
-        body {
-            background: #f0f2f6;
-            color: #000;
-        }
-        .main {
-            background: white;
+        body {{
+            background: {bg_color};
+            color: {text_color};
+        }}
+        .main {{
+            background: {card_color};
             padding: 2.5rem;
             border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
             max-width: 800px;
             margin: auto;
-            color: #000;
-        }
-        h1 {
-            color: #007acc;
+            color: {text_color};
+        }}
+        h1, h2, h3, h4, h5, h6 {{
+            color: {button_color};
             font-family: 'Courier New', monospace;
             text-align: center;
-            margin-bottom: 1rem;
-        }
-        .stButton > button {
-            background-color: #007acc;
+        }}
+        .stTextArea, .stSelectbox, .stDownloadButton, .stButton > button {{
+            font-size: 1rem;
+            border-radius: 10px;
+        }}
+        .stButton > button {{
+            background-color: {button_color};
             color: white;
             padding: 0.6rem 1.3rem;
             border: none;
             font-weight: bold;
-            border-radius: 10px;
-        }
-        .stButton > button:hover {
-            background-color: #005f99;
+        }}
+        .stButton > button:hover {{
+            background-color: {button_hover};
             transform: scale(1.04);
-        }
+        }}
     </style>
 """, unsafe_allow_html=True)
 
