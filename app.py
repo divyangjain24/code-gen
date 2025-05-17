@@ -3,7 +3,7 @@ import requests
 
 # Load OpenAI API key
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions"
+OPENAI_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
 # UI Setup
 st.set_page_config(page_title="AI Code Generator", layout="centered")
