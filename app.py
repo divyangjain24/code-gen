@@ -65,7 +65,7 @@ st.markdown("""
     </style>
 
     <div class="app-header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Artificial_intelligence_logo_by_MindIcon.png" alt="AI Logo">
+        <img src="https://clipartart.com/images/thumbnail/ai-artificial-intelligence-clipart-3.png" alt="AI Logo">
         <div class="app-title">AI Code Generator</div>
     </div>
 """, unsafe_allow_html=True)
