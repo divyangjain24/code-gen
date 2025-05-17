@@ -8,7 +8,7 @@ OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 # Page configuration
 st.set_page_config(page_title="AI Code Generator", layout="centered")
 
-# Simple CSS styling
+# Minimal clean CSS
 st.markdown("""
     <style>
         body {
@@ -45,30 +45,25 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Main container
 st.markdown("<div class='main'>", unsafe_allow_html=True)
 st.markdown("### 💻 AI Code Generator")
 st.markdown("### 🧠 Describe what you want and pick your language:")
 
+# Language selection
 languages = {
-    "Python": "py",
-    "JavaScript": "js",
-    "Java": "java",
-    "C++": "cpp",
-    "C": "c",
-    "C#": "cs",
-    "HTML": "html",
-    "CSS": "css",
-    "TypeScript": "ts",
-    "Go": "go",
-    "Ruby": "rb",
-    "PHP": "php"
+    "Python": "py", "JavaScript": "js", "Java": "java",
+    "C++": "cpp", "C": "c", "C#": "cs", "HTML": "html",
+    "CSS": "css", "TypeScript": "ts", "Go": "go",
+    "Ruby": "rb", "PHP": "php"
 }
-
 language_name = st.selectbox("Select a programming language:", list(languages.keys()))
 language_code = languages[language_name]
 
+# User input
 user_prompt = st.text_area("Enter your code request:", placeholder=f"e.g. Create a login page using {language_name}")
 
+# API Call function
 def generate_code(prompt, lang):
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -94,6 +89,7 @@ def generate_code(prompt, lang):
     except Exception as e:
         return f"❌ Error: {str(e)}"
 
+# Generate Code + Download
 if st.button("✨ Generate Code"):
     if user_prompt.strip():
         with st.spinner("Generating your code..."):
@@ -105,8 +101,7 @@ if st.button("✨ Generate Code"):
                 label="📥 Download Code",
                 data=code_output,
                 file_name=f"generated_code.{language_code}",
-                mime="text/plain",
-                key="download-code-btn"
+                mime="text/plain"
             )
     else:
         st.warning("Please enter a description for the code.")
