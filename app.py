@@ -48,14 +48,9 @@ st.markdown("""
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
             margin-bottom: 25px;
             padding: 10px;
             border-bottom: 1px solid #333;
-        }
-        .app-header img {
-            height: 50px;
-            border-radius: 8px;
         }
         .app-title {
             font-size: 30px;
@@ -64,6 +59,9 @@ st.markdown("""
         }
     </style>
 
+    <div class="app-header">
+        <div class="app-title">AI Code Generator</div>
+    </div>
 """, unsafe_allow_html=True)
 
 # UI Inputs
