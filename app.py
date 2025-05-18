@@ -13,7 +13,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- Custom CSS Styles (Dark Mode + Layout) ---
+# --- Custom CSS Styles (Dark Mode) ---
 st.markdown("""
     <style>
         html, body, .stApp {
@@ -38,7 +38,6 @@ st.markdown("""
             padding: 10px 20px;
             font-size: 16px;
             transition: background-color 0.3s ease;
-            cursor: pointer;
         }
         .stButton > button:hover {
             background-color: #009ec3 !important;
@@ -111,7 +110,7 @@ st.markdown("""
 # --- HEADER WITH LOGO ---
 st.markdown("""
     <div class="app-header">
-        <img src="https://img.icons8.com/external-flat-juicy-fish/96/external-code-web-development-flat-flat-juicy-fish.png" alt="Logo" />
+        <img src="https://img.icons8.com/ios-filled/70/00c9ff/code.png" alt="Logo" />
         <div class="app-title">AI Code Generator</div>
     </div>
 """, unsafe_allow_html=True)
@@ -134,6 +133,7 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 # --- MAIN UI ---
+
 st.markdown("### 🧠 Describe what you want and pick your language:")
 
 languages = {
@@ -169,9 +169,9 @@ def generate_code(prompt, lang):
         result = response.json()
         return result["choices"][0]["message"]["content"]
     except requests.exceptions.RequestException as e:
-        return f"❌ Error: {str(e)}.  Please check your network connection and OpenRouter API key."
+        return f"❌ Error: {str(e)}. Please check your network connection and OpenRouter API key."
     except KeyError:
-        return "❌ Error: Could not extract code from the API response.  The API may have returned an unexpected format."
+        return "❌ Error: Could not extract code from the API response. The API may have returned an unexpected format."
     except Exception as e:
         return f"❌ Error: An unexpected error occurred: {str(e)}"
 
