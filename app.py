@@ -2,98 +2,86 @@ import streamlit as st
 import requests
 import base64
 
-# API Config
+# Config
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
-# Page Settings
+# Page Setup
 st.set_page_config(
     page_title="AI Code Generator",
     page_icon="💡",
     layout="centered"
 )
 
-# Custom Styles (Dark Mode)
+# Custom Styles
 st.markdown("""
     <style>
         html, body, .stApp {
             background-color: #0e1117 !important;
             color: white !important;
-        }
-        label, div, p, h1, h2, h3, h4, h5, h6 {
-            color: white !important;
+            font-family: 'Segoe UI', sans-serif;
         }
         textarea, input, select {
-            background-color: #262730 !important;
+            background-color: #1e1e2f !important;
             color: white !important;
+            border-radius: 8px !important;
         }
         .stButton > button {
             background-color: #00c9ff !important;
             color: black !important;
             font-weight: bold;
             border-radius: 8px;
-            transition: 0.3s ease-in-out;
+            transition: background-color 0.3s ease;
         }
         .stButton > button:hover {
             background-color: #009ec3 !important;
-            transform: scale(1.03);
+        }
+        .app-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 25px;
+        }
+        .app-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00c9ff;
         }
         .export-button {
             text-align: right;
             margin-top: 10px;
         }
-        .app-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            padding: 10px;
-            border-bottom: 1px solid #333;
-        }
-        .app-title {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-        }
         .info-section {
-            margin-top: 50px;
-            border-top: 2px solid #4a5568;
+            margin-top: 60px;
+            border-top: 1px solid #333;
             padding-top: 20px;
+            font-size: 16px;
         }
         .info-title {
             color: #f56565;
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-        }
-        .info-text {
-            color: #cbd5e0;
-            line-height: 1.7;
             margin-bottom: 10px;
         }
-        .info-link {
-            color: #81e6d8;
-            text-decoration: none;
-            font-weight: 600;
+        .info-text, .info-link {
+            color: #cbd5e0;
         }
         .info-link:hover {
-            color: #319796;
-            text-decoration: underline;
+            color: #63b3ed;
         }
     </style>
+""", unsafe_allow_html=True)
+
+# Logo + Title
+st.markdown("""
     <div class="app-header">
-        <div class="app-title">💡 AI Code Generator</div>
+        <img src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/96/000000/artificial-intelligence.png" width="80">
+        <div class="app-title">AI Code Generator</div>
     </div>
 """, unsafe_allow_html=True)
 
-# Sidebar Branding & Navigation
-with st.sidebar:
-    st.image("https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-code-computer-programming-flaticons-lineal-color-flat-icons.png", width=100)
-    st.markdown("### AI Code Generator")
-    st.markdown("Generate optimal code in your favorite language with AI!")
-
-# UI Inputs
+# Input UI
 st.markdown("### 🧠 Describe what you want and pick your language:")
 
 languages = {
@@ -105,9 +93,10 @@ languages = {
 
 language_name = st.selectbox("Select a programming language:", list(languages.keys()))
 language_code = languages[language_name]
+
 user_prompt = st.text_area("Enter your code request:", placeholder=f"e.g. Create a login page using {language_name}")
 
-# Code Generator Function
+# Generate Code Function
 def generate_code(prompt, lang):
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -129,11 +118,11 @@ def generate_code(prompt, lang):
         result = response.json()
         return result["choices"][0]["message"]["content"]
     except requests.exceptions.RequestException as e:
-        return f"❌ Error: {str(e)}. Please check your network and API key."
+        return f"❌ Error: {str(e)}. Please check your network connection and OpenRouter API key."
     except KeyError:
-        return "❌ Error: API response format unexpected."
+        return "❌ Error: Could not extract code from the API response. The API may have returned an unexpected format."
     except Exception as e:
-        return f"❌ Error: {str(e)}"
+        return f"❌ Error: An unexpected error occurred: {str(e)}"
 
 # Generate Button
 if st.button("✨ Generate Code"):
@@ -143,18 +132,18 @@ if st.button("✨ Generate Code"):
             st.markdown(f"### 🚀 Code Output in {language_name}:")
             st.code(code_output, language=language_code)
 
-            # Download Button
+            # Download button
             b64 = base64.b64encode(code_output.encode()).decode()
             href = f'<a href="data:file/text;base64,{b64}" download="generated_code.{language_code}">📥 Download Code</a>'
             st.markdown(f"<div class='export-button'>{href}</div>", unsafe_allow_html=True)
     else:
-        st.warning("Please describe what code you want.")
+        st.warning("⚠️ Please enter a code request before generating.")
 
-# Developer Info Section
+# Developer Info
 st.markdown("""
 <div class="info-section">
-    <h2 class="info-title">About the Developer</h2>
-    <p class="info-text">Email: Narutouzu@gmail.com</p>
+    <div class="info-title">About the Developer</div>
+    <p class="info-text">Email: <a href="mailto:Narutouzu@gmail.com" class="info-link">Narutouzu@gmail.com</a></p>
     <p class="info-text">Instagram: <a href="https://www.instagram.com/__morningstar7854/" target="_blank" class="info-link">morningstar7854</a></p>
     <p class="info-text">Phone: 8630062115</p>
     <p class="info-text">YouTube: <a href="https://www.youtube.com/@alron-mind" target="_blank" class="info-link">Alron Mind</a></p>
