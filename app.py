@@ -11,7 +11,7 @@ st.set_page_config(
 
 # Sidebar Branding & Navigation
 with st.sidebar:
-    st.image("", width=100)
+    st.image("div.jpg", width=100)
     st.markdown("## AI Code Generator")
     st.markdown("Crafted by [Divyang Jain](https://www.linkedin.com/in/divyang-jain-276032291)")
     st.markdown("---")
