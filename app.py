@@ -153,7 +153,7 @@ st.markdown("""
 <div class="info-section">
     <h2 class="info-title">About the Developer</h2>
     <p class="info-text">Email: Narutouzu@gmail.com</p>
-    <p class="info-text">Instagram: <a href="https://www.instagram.com/morningstar7854/" target="_blank" class="info-link">morningstar7854</a></p>
+    <p class="info-text">Instagram: <a href="https://www.instagram.com/__morningstar7854/" target="_blank" class="info-link">morningstar7854</a></p>
     <p class="info-text">Phone Number: 8630062115</p>
     <p class="info-text">YouTube Channel: <a href="https://www.youtube.com/@alron-mind" target="_blank" class="info-link">Alron Mind</a></p>
     <p class="info-text">LinkedIn: <a href="https://www.linkedin.com/in/divyang-jain-276032291?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="info-link">Divyang Jain</a></p>
