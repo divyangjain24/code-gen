@@ -13,7 +13,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- Custom CSS Styles (Dark Mode) ---
+# --- Custom CSS Styles (Dark Mode + Layout) ---
 st.markdown("""
     <style>
         html, body, .stApp {
@@ -38,6 +38,7 @@ st.markdown("""
             padding: 10px 20px;
             font-size: 16px;
             transition: background-color 0.3s ease;
+            cursor: pointer;
         }
         .stButton > button:hover {
             background-color: #009ec3 !important;
@@ -117,7 +118,10 @@ st.markdown("""
 
 # --- SIDEBAR ABOUT ME ---
 with st.sidebar:
-    st.markdown('<img class="sidebar-profile-image" src="https://avatars.githubusercontent.com/u/583231?v=4" alt="Profile Image"/>', unsafe_allow_html=True)
+    st.markdown(
+        '<img class="sidebar-profile-image" src="https://avatars.githubusercontent.com/u/583231?v=4" alt="Profile Image"/>',
+        unsafe_allow_html=True
+    )
     st.markdown("""
     <div class="info-section">
         <h2 class="info-title">About the Developer</h2>
@@ -130,7 +134,6 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 # --- MAIN UI ---
-
 st.markdown("### 🧠 Describe what you want and pick your language:")
 
 languages = {
