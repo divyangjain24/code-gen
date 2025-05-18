@@ -2,10 +2,6 @@ import streamlit as st
 import requests
 import base64
 
-# API Config
-OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
-OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
-
 # Page Settings
 st.set_page_config(
     page_title="AI Code Generator",
@@ -13,99 +9,87 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom Styles (Dark Mode Only)
+# Sidebar Branding & Navigation
+with st.sidebar:
+    st.image("https://i.ibb.co/F3xT1jK/codegen.png", width=100)
+    st.markdown("## AI Code Generator")
+    st.markdown("Crafted by [Divyang Jain](https://www.linkedin.com/in/divyang-jain-276032291)")
+    st.markdown("---")
+    st.markdown("### 📢 Features")
+    st.markdown("- Multi-language support\n- Code optimization\n- Instant download")
+    st.markdown("### 📞 Contact")
+    st.markdown("- Email: Narutouzu@gmail.com\n- Phone: 8630062115")
+
+# Custom Styles
 st.markdown("""
     <style>
         html, body, .stApp {
-            background-color: #0e1117 !important;
-            color: white !important;
-        }
-        label, div, p, h1, h2, h3, h4, h5, h6 {
-            color: white !important;
-        }
-        textarea, input, select {
-            background-color: #262730 !important;
-            color: white !important;
+            background-color: #1a1a1d !important;
+            color: #f1f1f1 !important;
+            font-family: 'Segoe UI', sans-serif;
         }
         .stButton > button {
-            background-color: #00c9ff !important;
+            background: linear-gradient(90deg, #00c9ff, #92fe9d);
             color: black !important;
             font-weight: bold;
+            border: none;
             border-radius: 8px;
+            padding: 0.5em 1.2em;
+            transition: 0.3s ease;
         }
         .stButton > button:hover {
-            background-color: #009ec3 !important;
+            background: linear-gradient(90deg, #009ec3, #4be585);
         }
-        div[data-baseweb="select"] *, div[data-baseweb="popover"] * {
-            background-color: #262730 !important;
+        textarea, input, select {
+            background-color: #2a2a2e !important;
             color: white !important;
+            border: none !important;
+            border-radius: 6px !important;
+        }
+        .app-title {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #00d1ff;
+            font-weight: 800;
         }
         .export-button {
             text-align: right;
             margin-top: 10px;
         }
-        .app-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            padding: 10px;
-            border-bottom: 1px solid #333;
-        }
-        .app-title {
-            font-size: 30px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        .info-section {
-            margin-top: 50px;
-            border-top: 2px solid #4a5568;
-            padding-top: 20px;
-        }
-        .info-title {
-            color: #f56565;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-        }
-        .info-text {
-            color: #cbd5e0;
-            line-height: 1.7;
-            margin-bottom: 10px;
-        }
-        .info-link {
-            color: #81e6d8;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .info-link:hover {
-            color: #319796;
-            text-decoration: underline;
+        hr {
+            border: none;
+            border-top: 1px solid #444;
+            margin: 2em 0;
         }
     </style>
-
-    <div class="app-header">
-        <div class="app-title">AI Code Generator</div>
-    </div>
+    <div class="app-title">AI Code Generator</div>
 """, unsafe_allow_html=True)
 
-# UI Inputs
-st.markdown("### 🧠 Describe what you want and pick your language:")
+# Secret API Key
+OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
+# Supported Languages
 languages = {
-    "Python": "py", "JavaScript": "js", "Java": "java",
-    "C++": "cpp", "C": "c", "C#": "cs", "HTML": "html",
-    "CSS": "css", "TypeScript": "ts", "Go": "go",
-    "Ruby": "rb", "PHP": "php"
+    "Python": "py", "JavaScript": "js", "Java": "java", "C++": "cpp",
+    "C": "c", "C#": "cs", "HTML": "html", "CSS": "css", "TypeScript": "ts",
+    "Go": "go", "Ruby": "rb", "PHP": "php"
 }
+
+# UI Elements
+st.markdown("### 🧠 Describe what you want and pick your language:")
 
 language_name = st.selectbox("Select a programming language:", list(languages.keys()))
 language_code = languages[language_name]
 
 user_prompt = st.text_area("Enter your code request:", placeholder=f"e.g. Create a login page using {language_name}")
 
-# Generate Code Function
+# Example prompt button
+if st.button("💡 Show Example"):
+    user_prompt = f"Create a fully responsive login page using {language_name}"
+
+# Code Generation Function
 def generate_code(prompt, lang):
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -127,13 +111,13 @@ def generate_code(prompt, lang):
         result = response.json()
         return result["choices"][0]["message"]["content"]
     except requests.exceptions.RequestException as e:
-        return f"❌ Error: {str(e)}.  Please check your network connection and OpenRouter API key."
+        return f"❌ Network Error: {str(e)}"
     except KeyError:
-        return "❌ Error: Could not extract code from the API response.  The API may have returned an unexpected format."
+        return "❌ API Error: Unexpected response format."
     except Exception as e:
-        return f"❌ Error: An unexpected error occurred: {str(e)}"
+        return f"❌ Unknown Error: {str(e)}"
 
-# Button to Generate Code
+# Generate Code
 if st.button("✨ Generate Code"):
     if user_prompt.strip():
         with st.spinner("Generating your code..."):
@@ -141,23 +125,17 @@ if st.button("✨ Generate Code"):
             st.markdown(f"### 🚀 Code Output in {language_name}:")
             st.code(code_output, language=language_code)
 
-            # Download option
+            # Download Option
             b64 = base64.b64encode(code_output.encode()).decode()
             href = f'<a href="data:file/text;base64,{b64}" download="generated_code.{language_code}">📥 Download Code</a>'
             st.markdown(f"<div class='export-button'>{href}</div>", unsafe_allow_html=True)
     else:
         st.warning("Please enter a description for the code.")
 
-# Your Information Section
+# Footer
 st.markdown("""
-<div class="info-section">
-    <h2 class="info-title">About the Developer</h2>
-    <p class="info-text">Email: Narutouzu@gmail.com</p>
-    <p class="info-text">Instagram: <a href="https://www.instagram.com/__morningstar7854/" target="_blank" class="info-link">morningstar7854</a></p>
-    <p class="info-text">Phone Number: 8630062115</p>
-    <p class="info-text">YouTube Channel: <a href="https://www.youtube.com/@alron-mind" target="_blank" class="info-link">Alron Mind</a></p>
-    <p class="info-text">LinkedIn: <a href="https://www.linkedin.com/in/divyang-jain-276032291?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="info-link">Divyang Jain</a></p>
-    
-    
+<hr>
+<div style='text-align: center; font-size: 0.9em;'>
+    © 2025 AI Code Generator | Built with ❤️ by Divyang Jain
 </div>
 """, unsafe_allow_html=True)
