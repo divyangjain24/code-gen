@@ -11,7 +11,8 @@ st.set_page_config(
 
 # Sidebar Branding & Navigation
 with st.sidebar:
-    st.image("https://i.ibb.co/F3xT1jK/codegen.png", width=100)
+    st.image("st.image("https://img.icons8.com/external-flat-juicy-fish/344/external-code-web-development-flat-flat-juicy-fish.png", width=100)
+", width=100)
     st.markdown("## AI Code Generator")
     st.markdown("Crafted by [Divyang Jain](https://www.linkedin.com/in/divyang-jain-276032291)")
     st.markdown("---")
