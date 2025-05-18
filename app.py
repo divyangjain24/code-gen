@@ -85,9 +85,6 @@ language_code = languages[language_name]
 
 user_prompt = st.text_area("Enter your code request:", placeholder=f"e.g. Create a login page using {language_name}")
 
-# Example prompt button
-if st.button("💡 Show Example"):
-    user_prompt = f"Create a fully responsive login page using {language_name}"
 
 # Code Generation Function
 def generate_code(prompt, lang):
