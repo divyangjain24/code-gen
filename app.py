@@ -339,8 +339,7 @@ with col2:
     output_placeholder = st.empty()
 
 # --- Reset input ---
-if reset_clicked:
-    st.experimental_rerun()
+
 
 # --- Function to generate code ---
 def generate_code(prompt, lang):
