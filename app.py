@@ -332,8 +332,7 @@ with col1:
     # Buttons side by side
     btn_col1, btn_col2 = st.columns(2)
     generate_clicked = btn_col1.button("✨ Generate Code")
-    reset_clicked = btn_col2.button("🧹 Reset")
-
+    
 with col2:
     st.markdown("### 🚀 Code Output")
     output_placeholder = st.empty()
